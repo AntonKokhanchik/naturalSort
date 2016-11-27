@@ -131,21 +131,84 @@ namespace naturalSort
 			}
 		}
 
+		private void assemble()
+		{
+			using (StreamWriter f = new StreamWriter(openFileDialog1.FileName, false))
+			using (StreamReader a = new StreamReader("fileA"))
+			using (StreamReader b = new StreamReader("fileB"))
+			{
+				string numberA = "";
+				string numberB = "";
+				while (true)
+				{
+					// читаем новое число, если требуется
+					if (numberA.Length == 0)
+						numberA = readWord(a);
+			
+					if (numberB.Length == 0)
+						numberB = readWord(b);
 
+					// если один из файлов кончился, дописываем второй
+					if (a.EndOfStream)
+					{
+						finishAssemblyng(f, b, numberA, numberB);
+						break;
+					}
 
+					if (b.EndOfStream)
+					{
+						finishAssemblyng(f, a, numberB, numberA);
+						break;
+					}
 
+					// если ни один из файлов не кончился, записываем меньшее значение
+					if (Int32.Parse(numberA) < Int32.Parse(numberB))
+					{
+						f.Write(numberA + " ");
+						numberA = "";
 					}
 					else
 					{
+						f.Write(numberB + " ");
+						numberB = "";
 					}
 				}
 			}
+		}
 
+		private void finishAssemblyng(StreamWriter f, StreamReader restFile, string lastNumberAnotherFile, string lastNumberRestFile)
 		{
+			while (!restFile.EndOfStream)
 			{
+				// у нас остался ещё одно число из опустошённого файла (и одно прочитано из другого файла), сравниваем их
+				if (Int32.Parse(lastNumberAnotherFile) < Int32.Parse(lastNumberRestFile))
 				{
+					// в этом случае дописываем числа, после чего весь файл до конца
+					f.Write(lastNumberAnotherFile + " ");
+					f.Write(lastNumberRestFile + " ");
 
+					while (!restFile.EndOfStream)
+						f.Write((char)restFile.Read());
+					return;
 				}
+				else
+				{
+					//а в этом продолжаем проверять
+					f.Write(lastNumberRestFile + " ");
+					lastNumberRestFile = readWord(restFile);
+				}
+			}
+
+			// а здесь уже оба файла кончились, записываем числа в том или ином порядке
+			if (Int32.Parse(lastNumberAnotherFile) < Int32.Parse(lastNumberRestFile))
+			{
+				f.Write(lastNumberAnotherFile + " ");
+				f.Write(lastNumberRestFile);
+			}
+			else
+			{
+				f.Write(lastNumberRestFile + " ");
+				f.Write(lastNumberAnotherFile);
 			}
 		}
     }
