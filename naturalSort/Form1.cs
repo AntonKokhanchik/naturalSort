@@ -71,7 +71,6 @@ namespace naturalSort
 
 
 
-							prevB = tmpStringsArrayB.Last();
 
 
 					}
