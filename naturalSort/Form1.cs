@@ -52,6 +52,21 @@ namespace naturalSort
         }
 
 
+		private bool isSorted()
+		{
+			using (StreamReader f = new StreamReader(openFileDialog1.FileName))
+			{
+				string l = readWord(f);
+				while (!f.EndOfStream)
+				{
+					string r = readWord(f);
+					if (Int32.Parse(l) > Int32.Parse(r))
+						return false;
+					l = r;
+				}
+				return true;
+			}
+		}
 
 
 
@@ -80,42 +95,11 @@ namespace naturalSort
 				}
 			}
 
-
-		private bool isSorted(FileStream file)
 		{
-			file.Seek(0, SeekOrigin.Begin);
-			using (StreamReader f = new StreamReader(file))
 			{
-				string prev = "";
-
-				char[] buffer = new char[1000];
-
-				while (!f.EndOfStream)
 				{
-					f.ReadBlock(buffer, 0, 1000);
 
-					if (buffer[0] != ' ')
-						buffer = (prev + buffer).ToCharArray();
-					else
-						if (prev != "")
-							buffer = (prev + " " + buffer).ToCharArray();
-
-
-					string[] tmpStringsArray = buffer.ToString().Split(' ');
-
-					if (buffer.Last() == ' ')
-						prev = "";
-					else
-						prev = tmpStringsArray.Last();
-
-
-					for (int i = 0; i < tmpStringsArray.Length - 1; i++)//внимание
-					{
-						if (Int32.Parse(tmpStringsArray[i]) > Int32.Parse(tmpStringsArray[i + 1]))
-							return false;
-					}
 				}
-				return true;
 			}
 		}
     }
