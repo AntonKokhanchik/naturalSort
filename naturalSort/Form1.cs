@@ -28,7 +28,18 @@ namespace naturalSort
 
         private void sortButton_Click(object sender, EventArgs e)
         {
-            runSort();
+			bool isError = false;
+			try
+			{
+				runSort();
+			}
+			catch (Exception exc)
+			{
+				isError = true;
+			}
+
+			Form2 done = new Form2(isError);
+			done.ShowDialog();
         }
 
         private void runSort()
