@@ -18,6 +18,7 @@ namespace naturalSort
             InitializeComponent();
         }
 
+		// Кнопка выбора файла
         private void openFileButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -26,6 +27,7 @@ namespace naturalSort
             }
         }
 
+		// кнопка запуска сортировки
         private void sortButton_Click(object sender, EventArgs e)
         {
 			bool isError = false;
@@ -42,6 +44,8 @@ namespace naturalSort
 			done.ShowDialog();
         }
 
+
+		// запуск сортировки
         private void runSort()
         {
 			while (!isSorted())
@@ -52,6 +56,9 @@ namespace naturalSort
         }
 
 
+		/// <summary>
+		/// проверяет отсортированность входного файла
+		/// </summary>
 		private bool isSorted()
 		{
 			using (StreamReader f = new StreamReader(openFileDialog1.FileName))
@@ -105,6 +112,9 @@ namespace naturalSort
 		//	}
 		//}
 
+		/// <summary>
+		/// читает слово (до пробела) из указанного потока
+		/// </summary>
 		private string readWord(StreamReader stream)
 		{
 			StringBuilder word = new StringBuilder("");
@@ -121,6 +131,9 @@ namespace naturalSort
 			return word.ToString();
 		}
 
+		/// <summary>
+		/// выполняет этап распределения
+		/// </summary>
 		private void distribute()
 		{
 			using (StreamReader f = new StreamReader(openFileDialog1.FileName))
@@ -316,6 +329,10 @@ namespace naturalSort
 		//		}
 		//	}
 		//}
+
+		/// <summary>
+		/// выполняет этап сборки
+		/// </summary>
 		private void assemble()
 		{
 			using (StreamWriter f = new StreamWriter(openFileDialog1.FileName, false))
@@ -361,6 +378,9 @@ namespace naturalSort
 			}
 		}
 
+		/// <summary>
+		/// дописывает файл в поток (учитывая, что уже прочитано по числу из обоих файлов)
+		/// </summary>
 		private void finishAssemblyng(StreamWriter f, StreamReader restFile, string lastNumberAnotherFile, string lastNumberRestFile)
 		{
 			while (!restFile.EndOfStream)
