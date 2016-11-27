@@ -77,6 +77,21 @@ namespace naturalSort
 
 
 
+		private string readWord(StreamReader stream)
+		{
+			StringBuilder word = new StringBuilder("");
+
+			while (!stream.EndOfStream)
+			{
+				char tmp = (char)stream.Read();
+				if (Char.IsDigit(tmp))
+					word.Append(tmp);
+				else
+					break;
+			}
+
+			return word.ToString();
+		}
 
 
 
