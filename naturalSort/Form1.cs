@@ -93,12 +93,43 @@ namespace naturalSort
 			return word.ToString();
 		}
 
+		private void distribute()
+		{
+			using (StreamReader f = new StreamReader(openFileDialog1.FileName))
+			using (StreamWriter a = new StreamWriter("FileA", false))
+			using (StreamWriter b = new StreamWriter("FileB", false))
+			{
+				//определяет направление записи
+				bool isA = true;
 
+				string l = readWord(f);
 
+				while (!f.EndOfStream)
+				{
+					if (isA)
+						a.Write(l + " ");
+					else
+						b.Write(l + " ");
 
+					string r = readWord(f);
 
+					// перенаправляем поток, если левый больше правого
+					if (Int32.Parse(l) > Int32.Parse(r))
+						if (isA)
+							isA = false;
+						else
+							isA = true;
 
+					l = r;
+				}
 
+				// дописываем последний символ
+				if (isA)
+					a.Write(l);
+				else
+					b.Write(l);
+			}
+		}
 
 
 
