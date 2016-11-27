@@ -13,7 +13,6 @@ namespace naturalSort
 {
     public partial class mainForm : Form
     {
-        FileStream file;
         public mainForm()
         {
             InitializeComponent();
@@ -23,11 +22,8 @@ namespace naturalSort
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                file = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.ReadWrite);
                 sortButton.Enabled = true;
             }
-
-
         }
 
         private void sortButton_Click(object sender, EventArgs e)
@@ -37,8 +33,6 @@ namespace naturalSort
 
         private void runSort()
         {
-            using (FileStream fileA = new FileStream("fileA", FileMode.OpenOrCreate, FileAccess.ReadWrite))
-			using (FileStream fileB = new FileStream("fileB", FileMode.OpenOrCreate, FileAccess.ReadWrite))
 			{
 				while (!isSorted(file))
 				{
