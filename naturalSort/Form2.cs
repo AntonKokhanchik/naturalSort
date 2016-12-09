@@ -13,7 +13,7 @@ namespace naturalSort
 {
 	public partial class Form2 : Form
 	{
-		public Form2(bool isError)
+		public Form2(bool isError, int i)
 		{
 			InitializeComponent();
 			if(isError)
@@ -26,6 +26,7 @@ namespace naturalSort
 				errorLabel.Hide();
 				OKLabel.Show();
 			}
+			labelIter.Text = i.ToString();
 		}
 
 		private void button1_Click(object sender, EventArgs e)

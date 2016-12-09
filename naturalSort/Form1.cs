@@ -25,28 +25,32 @@ namespace naturalSort
         private void sortButton_Click(object sender, EventArgs e)
         {
 			bool isError = false;
+			int i = 0;
 			try
 			{
-				runSort();
+				i=runSort();
 			}
-			catch (Exception exc)
+			catch (Exception)
 			{
 				isError = true;
 			}
 
-			Form2 done = new Form2(isError);
+			Form2 done = new Form2(isError, i);
 			done.ShowDialog();
         }
 
 
 		// запуск сортировки
-        private void runSort()
+        private int runSort()
         {
+			int i = 0;
 			while (!isSorted())
 			{
 				distribute();
 				assemble();
+				i++;
 			}
+			return i;
         }
 
 		/// <summary>
