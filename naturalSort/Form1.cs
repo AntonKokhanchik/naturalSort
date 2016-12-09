@@ -141,16 +141,50 @@ namespace naturalSort
 			using (StreamReader a = new StreamReader("fileA"))
 			using (StreamReader b = new StreamReader("fileB"))
 			{
+				string prevA = "";
+				string prevB = "";
 				string numberA = "";
 				string numberB = "";
 				while (true)
 				{
 					// читаем новое число, если требуется
 					if (numberA.Length == 0)
+					{
 						numberA = readWord(a);
-			
+						if (prevA.Length != 0 && Int32.Parse(numberA) < Int32.Parse(prevA))
+						{
+							prevA = "";
+							while (!b.EndOfStream)
+							{
+								if (prevB.Length != 0 && Int32.Parse(numberB) < Int32.Parse(prevB))
+									break;
+								f.Write(numberB + " ");
+								prevB = numberB;
+								numberB = readWord(b);
+							}
+							prevB = "";
+						}
+					}
+
+
 					if (numberB.Length == 0)
+					{
 						numberB = readWord(b);
+						if (prevB.Length != 0 && Int32.Parse(numberB) < Int32.Parse(prevB))
+						{
+							prevB = "";
+							while (!a.EndOfStream)
+							{
+								if (prevA.Length != 0 && Int32.Parse(numberA) < Int32.Parse(prevA))
+									break;
+								f.Write(numberA + " ");
+								prevA = numberA;
+								numberA = readWord(a);
+							}
+							prevA = "";
+						}
+					}
+
 
 					// если один из файлов кончился, дописываем второй
 					if (a.EndOfStream)
@@ -164,16 +198,19 @@ namespace naturalSort
 						finishAssemblyng(f, a, numberB, numberA);
 						break;
 					}
+					
 
 					// если ни один из файлов не кончился, записываем меньшее значение
 					if (Int32.Parse(numberA) < Int32.Parse(numberB))
 					{
 						f.Write(numberA + " ");
+						prevA = numberA;
 						numberA = "";
 					}
 					else
 					{
 						f.Write(numberB + " ");
+						prevB = numberB;
 						numberB = "";
 					}
 				}
