@@ -255,5 +255,17 @@ namespace naturalSort
 				f.Write(lastNumberAnotherFile);
 			}
 		}
+
+		private void buttonRand_Click(object sender, EventArgs e)
+		{
+			int n = Int32.Parse(textBoxRand.Text);
+
+			Random r = new Random();
+			using (StreamWriter f = new StreamWriter(openFileDialog1.FileName, false))
+			{
+				for (int i = 0; i < n; i++)
+					f.Write(r.Next(100000)+" ");
+			}
+		}
     }
 }
